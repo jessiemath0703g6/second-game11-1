@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <title>Jessie Math - 圓與扇形面積</title>
+
+  <!-- ✅ 快取連結預覽（請放在 <head> 裡） -->
+  <!-- 控制預覽卡片那行文字（很多平台會抓這個） -->
+  <meta name="description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+
+  <!-- ✅ LINE / FB 預覽用 -->
+  <meta property="og:title" content="Jessie Math -  圓與扇形面積">
+  <meta property="og:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+  <meta property="og:type" content="website">
+
+  <!-- ✅ 預覽圖片（把檔名換成你的主題圖，例如 g6-u11-1.png） -->
+  <meta property="og:image" content="g6-u11-1.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1536">
+  <meta property="og:image:alt" content="Jessie Math 遊戲封面">
+
+  <!-- ✅ 有些平台會參考 -->
+  <link rel="image_src" href="g6-u11-1.png">
+
+  <!-- ✅ Twitter / X（可用同一張圖） -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jessie Math -  圓與扇形面積">
+  <meta name="twitter:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+  <meta name="twitter:image" content="g6-u11-1.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-soft: rgba(99, 102, 241, 0.1);
+      --accent: #10b981;
+      --danger: #ef4444;
+      --bg: #f8fafc;
+      --surface: rgba(255, 255, 255, 0.8);
+      --text-main: #1e293b;
+      --text-sub: #64748b;
+      --border: rgba(226, 232, 240, 0.8);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.05), 0 2px 8px -2px rgba(0, 0, 0, 0.03);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Noto Sans TC', system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+    }
+
+    /* --- Navigation (Hero / Topbar) --- */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.7);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 22px;
+      display: flex; align-items: center;
+      gap: 16px;
+    }
+    .nav-left{display:flex; align-items:center; gap:12px; min-width: 220px;}
+    .nav-right{margin-left:auto; display:flex; align-items:center; gap:12px; flex-wrap: wrap; justify-content:flex-end;}
+
+    .nav-brand { display: flex; align-items: center; gap: 12px; }
+    .nav-brand img { width: 52px; height: 52px; border-radius: 999px; object-fit: contain; }
+    .nav-brand .brand-text { display:flex; flex-direction: column; line-height: 1.05; }
+    .nav-brand .brand-title { font-weight: 900; font-size: 1.35rem; letter-spacing: -0.7px; }
+    .nav-brand .brand-sub { font-weight: 700; font-size: .92rem; color: var(--text-sub); }
+
+    .nav-actions{
+      display:flex; align-items:center; gap: 10px; flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav-link{
+      display:inline-flex; align-items:center; gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.88);
+      color: var(--text-main);
+      font-weight: 900;
+      text-decoration: none;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+    .nav-link i{ color: var(--primary); }
+    .nav-link:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(15,23,42,.08);
+      border-color: rgba(99,102,241,.35);
+    }
+
+    /* ✅ Guest 拿掉：保留容器但預設隱藏；有名字才顯示 */
+    .name-pill {
+      display: none;
+      align-items:center; justify-content:center;
+      padding: 8px 14px; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 900;
+      background: var(--primary-soft); color: var(--primary);
+      border: 1px solid rgba(99,102,241,.18);
+      white-space: nowrap;
+      min-width: 84px;
+    }
+    .name-pill.show{ display:inline-flex; }
+
+    /* --- Layout --- */
+    .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+    .glass-card {
+      background: var(--surface);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    /* --- Screens --- */
+    .screen { display: none; animation: fadeIn 0.4s ease-out; }
+    .screen.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* --- Typography --- */
+    h1 { font-size: 2rem; font-weight: 900; margin-bottom: 8px; letter-spacing: -1px; }
+    .subtitle { color: var(--text-sub); margin-bottom: 24px; font-weight: 500; }
+
+    /* --- UI Components --- */
+    .input-group { margin-bottom: 20px; }
+    .input-label { display: block; font-size: 0.875rem; font-weight: 700; color: var(--text-sub); margin-bottom: 8px; }
+
+    input[type="text"], .ans-input {
+      width: 100%; padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border);
+      background: white;
+      font-size: 1rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px var(--primary-soft); }
+
+    .btn {
+      padding: 14px 28px; border-radius: var(--radius-md);
+      border: none; cursor: pointer;
+      font-weight: 700; font-size: 1rem;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+    }
+    .btn-primary { background: var(--primary); color: white; width: 100%; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-primary:disabled { background: var(--text-sub); cursor: not-allowed; }
+
+    /* 三鍵 */
+    .btn-row{
+      display:flex; gap: 10px; justify-content:center; flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .btn-ghost{
+      width:auto;
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 12px 16px;
+      font-weight: 900;
+    }
+    .btn-ghost:hover{ transform: translateY(-1px); box-shadow: 0 10px 18px rgba(15,23,42,.06); }
+    .btn-warn{ border-color: rgba(239,68,68,.25); color: #b91c1c; }
+    .btn-ok{ border-color: rgba(16,185,129,.25); color: #047857; }
+
+    .chip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .chip {
+      padding: 16px; border-radius: var(--radius-md);
+      border: 2px solid var(--border);
+      background: white; cursor: pointer;
+      text-align: center; font-weight: 700; transition: all 0.2s;
+    }
+    .chip i { display: block; margin-bottom: 8px; font-size: 1.2rem; color: var(--text-sub); }
+    .chip.active { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+    .chip.active i { color: var(--primary); }
+
+    /* --- Game HUD --- */
+    .hud-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      margin-bottom: 24px;
+    }
+    .hud-item {
+      background: white; padding: 12px; border-radius: var(--radius-md);
+      border: 1px solid var(--border); text-align: center;
+    }
+    .hud-label { font-size: 0.75rem; font-weight: 700; color: var(--text-sub); display: block; }
+    .hud-value { font-size: 1.25rem; font-weight: 800; font-family: 'Inter'; }
+
+    .timer-display {
+      font-size: 2.5rem; font-weight: 800; text-align: center;
+      margin-bottom: 12px; font-family: 'Inter';
+    }
+
+    /* --- Visualizer --- */
+    .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    canvas {
+      width: 100%; background: #fff; border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    /* 第一頁遊戲說明 */
+    .info-box{
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin: 0 0 18px;
+    }
+    .info-grid{
+      display:grid; grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .info-item{
+      border: 1px dashed rgba(99,102,241,.25);
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: rgba(99,102,241,.04);
+    }
+    .info-item b{display:block; font-weight:900; margin-bottom: 4px;}
+    .info-item span{color: var(--text-sub); font-weight:700; font-size:.9rem;}
+
+    /* 第二頁排行榜 */
+    .leader-wrap{
+      margin-top: 10px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+    .leader-title{
+      font-weight: 900; letter-spacing: -.4px;
+      display:flex; align-items:center; gap: 10px;
+      margin: 0 0 10px;
+    }
+    .leader-title i{ color: var(--primary); }
+    .leader-table{
+      width:100%;
+      border-collapse: collapse;
+      font-weight: 800;
+      font-size: .95rem;
+      overflow:hidden;
+      border-radius: 14px;
+    }
+    .leader-table th, .leader-table td{
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(226,232,240,.9);
+      text-align: left;
+      background: rgba(255,255,255,.9);
+    }
+    .leader-table th{
+      color: var(--text-sub);
+      font-size: .8rem;
+      letter-spacing: .2px;
+      text-transform: uppercase;
+      background: rgba(99,102,241,.04);
+    }
+    .rank-pill{
+      display:inline-flex; align-items:center; justify-content:center;
+      min-width: 34px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(99,102,241,.2);
+      background: rgba(99,102,241,.06);
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    /* ✅ Footer（品牌小膠囊條） */
+    footer{
+      margin: 10px 0 28px;
+      padding: 0 20px;
+    }
+    .footer-pill{
+      max-width: 1000px;
+      margin: 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+    .footer-left, .footer-right{
+      display:flex; align-items:center; gap: 10px;
+      min-width: 220px;
+    }
+    .footer-dot{
+      width: 10px; height: 10px; border-radius: 999px;
+      background: var(--primary);
+      box-shadow: 0 0 0 6px rgba(99,102,241,.12);
+      flex: 0 0 auto;
+    }
+    .footer-copy{
+      font-weight: 900;
+      color: var(--text-main);
+      font-size: .95rem;
+      letter-spacing: -.2px;
+    }
+    .footer-icon{
+      width: 34px; height: 34px; border-radius: 999px;
+      display:flex; align-items:center; justify-content:center;
+      border: 1px solid rgba(99,102,241,.18);
+      background: rgba(99,102,241,.06);
+      color: var(--primary);
+      flex: 0 0 auto;
+    }
+    .footer-tagline{
+      font-weight: 900;
+      color: var(--text-sub);
+      font-size: .95rem;
+      letter-spacing: -.2px;
+    }
+
+    /* ✅ RWD：手機 / 平板 / 電腦（加強 footer 與 nav 的斷點排列） */
+    @media (max-width: 980px){
+      .container{ padding: 0 16px; }
+      .nav{ padding: 12px 14px; }
+      .nav-brand img{ width: 46px; height: 46px; }
+      .nav-brand .brand-title{ font-size: 1.22rem; }
+      .nav-left{ min-width: unset; }
+    }
+    @media (max-width: 820px){
+      .info-grid{ grid-template-columns: 1fr; }
+      .hud-bar { grid-template-columns: 1fr 1fr; }
+      .game-grid { grid-template-columns: 1fr; }
+
+      .footer-left, .footer-right{ min-width: unset; }
+      .footer-pill{ border-radius: 22px; }
+    }
+    @media (max-width: 520px){
+      .nav{ align-items:flex-start; }
+      .nav-right{ width: 100%; justify-content:flex-start; }
+      .nav-actions{ width: 100%; justify-content:flex-start; }
+      .nav-link{ padding: 9px 12px; font-size: .92rem; }
+      .glass-card{ padding: 22px; }
+      h1{ font-size: 1.6rem; }
+      .timer-display{ font-size: 2.1rem; }
+
+      footer{ padding: 0 16px; }
+      .footer-pill{ padding: 12px 12px; }
+      .footer-copy, .footer-tagline{ font-size: .92rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="nav-brand">
+        <img src="JESSIEMATH-Q.png" alt="Jessie Math Avatar">
+        <div class="brand-text">
+          <div class="brand-title">Jessie Math</div>
+          <div class="brand-sub">主題十一:圓面積與扇形面積</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <div class="nav-actions">
+        <a class="nav-link" href="https://jessiemath0703-chu.github.io/website2/" target="_blank" rel="noopener">
+          <i class="fa-solid fa-house"></i> 首頁
+        </a>
+        <a class="nav-link" href="https://jessiemath0703-chu.github.io/Game-Lobby/" target="_blank" rel="noopener">
+          <i class="fa-solid fa-gamepad"></i> 遊戲大廳
+        </a>
+        <a class="nav-link" href="https://jessiemath0703-chu.github.io/Game-Lobby/#g6-u11" target="_blank" rel="noopener">
+          <i class="fa-solid fa-rotate-left"></i> 六年級園面積與扇形面積
+        </a>
+      </div>
+
+      <!-- ✅ hero右半邊只留三顆按鈕：這顆名字徽章不再顯示（但邏輯保留不動） -->
+      <div class="name-pill" id="whoBadge" style="display:none !important;"></div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <section class="screen active" id="screen-name">
+      <div class="glass-card">
+        <h1>專注於圓形之美</h1>
+        <p class="subtitle">這是一場關於圓、扇形與精準計算的思維練習。</p>
+
+        <div class="info-box">
+          <div class="info-grid">
+            <div class="info-item">
+              <b>遊戲說明</b>
+              <span>選主題＋難度後開始作答；每題輸入數值並送出。</span>
+            </div>
+            <div class="info-item">
+              <b>計時規則</b>
+              <span>每回合 60 秒；時間歸零就結算成績。</span>
+            </div>
+            <div class="info-item">
+              <b>計分方式</b>
+              <span>答對得分＋連擊加成；答錯連擊歸零，不扣分。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">請輸入您的識別名稱</label>
+          <input type="text" id="nameInput" placeholder="例如：Archimedes">
+        </div>
+        <button class="btn btn-primary" id="btnNameGo">進入研究室</button>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-menu">
+      <div class="glass-card">
+        <h1>實驗參數設定</h1>
+        <p class="subtitle">選擇您的研究主題與計算強度。</p>
+
+        <label class="input-label">研究主題</label>
+        <div class="chip-grid" id="levelChips">
+          <div class="chip" data-level="1"><i class="fa-solid fa-circle"></i> 圓面積</div>
+          <div class="chip" data-level="2"><i class="fa-solid fa-chart-pie"></i> 扇形面積</div>
+          <div class="chip" data-level="3"><i class="fa-solid fa-shapes"></i> 複合應用</div>
+        </div>
+
+        <label class="input-label">計算難度</label>
+        <div class="chip-grid" id="diffChips">
+          <div class="chip" data-diff="easy"><i class="fa-solid fa-feather"></i> 基礎</div>
+          <div class="chip" data-diff="normal"><i class="fa-solid fa-microchip"></i> 進階</div>
+          <div class="chip" data-diff="hard"><i class="fa-solid fa-atom"></i> 挑戰</div>
+        </div>
+
+        <button class="btn btn-primary" id="btnStart" disabled>開始同步計算</button>
+
+        <div class="leader-wrap" id="leaderWrap">
+          <div class="leader-title"><i class="fa-solid fa-crown"></i> 排行榜（本機）</div>
+          <table class="leader-table">
+            <thead>
+              <tr>
+                <th style="width:72px;">名次</th>
+                <th>名稱</th>
+                <th style="width:110px;">分數</th>
+                <th style="width:120px;">主題</th>
+                <th style="width:110px;">難度</th>
+              </tr>
+            </thead>
+            <tbody id="leaderBody">
+              <tr><td colspan="5" style="color:var(--text-sub); font-weight:800;">尚無紀錄，先來當第一名 ✨</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-game">
+      <div class="btn-row">
+        <button class="btn btn-ghost btn-ok" id="btnPause"><i class="fa-solid fa-pause"></i> 暫停</button>
+        <button class="btn btn-ghost btn-warn" id="btnRestart"><i class="fa-solid fa-rotate-right"></i> 重來</button>
+        <button class="btn btn-ghost" id="btnBack"><i class="fa-solid fa-list"></i> 回選卡</button>
+      </div>
+
+      <div class="timer-display" id="timerText">60</div>
+
+      <div class="hud-bar">
+        <div class="hud-item"><span class="hud-label">SCORE</span><span class="hud-value" id="scoreText">0</span></div>
+        <div class="hud-item"><span class="hud-label">COMBO</span><span class="hud-value" id="comboText">0</span></div>
+        <div class="hud-item"><span class="hud-label">CORRECT</span><span class="hud-value" id="correctText">0</span></div>
+        <div class="hud-item"><span class="hud-label">ACCURACY</span><span class="hud-value" id="accText">100%</span></div>
+      </div>
+
+      <div class="game-grid">
+        <div class="viz-area">
+          <canvas id="viz" width="500" height="500"></canvas>
+          <div style="margin-top:16px">
+            <input type="range" id="slider" style="width:100%; accent-color:var(--primary)" min="10" max="160" value="80">
+            <p id="meterText" style="text-align:center; font-weight:700; color:var(--text-sub); font-size:0.875rem"></p>
+          </div>
+        </div>
+
+        <div class="qa-area">
+          <div class="glass-card" style="padding: 24px;">
+            <p id="qText" style="font-size:1.1rem; font-weight:700; margin-bottom:20px; min-height:90px">載入中...</p>
+            <div class="input-group">
+              <input type="number" id="ansInput" class="ans-input" placeholder="輸入數值...">
+            </div>
+            <button class="btn btn-primary" id="btnSubmit">送出答案</button>
+            <div id="feedback" style="margin-top:16px; font-weight:700; text-align:center"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-result">
+      <div class="glass-card" style="text-align:center">
+        <h1 id="resGrade">計算完成</h1>
+        <p class="subtitle" id="resSummary"></p>
+        <div class="chip-grid" style="max-width:400px; margin: 0 auto 24px">
+          <div class="hud-item"><span class="hud-label">最終分數</span><span class="hud-value" id="finalScore">0</span></div>
+          <div class="hud-item"><span class="hud-label">答對數</span><span class="hud-value" id="finalCorrect">0</span></div>
+        </div>
+        <button class="btn btn-primary" style="width:auto" onclick="location.reload()">重新開始</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ✅ Footer：照你給的原樣放到最後 -->
+  <footer>
+    <div class="footer-pill">
+      <div class="footer-left">
+        <div class="footer-dot" aria-hidden="true"></div>
+        <div class="footer-copy">© 2025–2026 Jessie Math 捷析老師. All rights reserved.</div>
+      </div>
+      <div class="footer-right">
+        <div class="footer-icon" aria-hidden="true"><i class="fas fa-compass"></i></div>
+        <div class="footer-tagline">數學不迷路，Jessie 帶你走向理解。</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 題庫依你提供的講義題型（圓面積 / 扇形面積 / 複合陰影、披薩扇形、同心扇形等）
+    // π 一律取 3.14；答案預設取到小數點後 1 位（避免因四捨五入吵架）
+    // 其他 UI / 架構不動，只把：Guest 拿掉、題庫接上、RWD 已在 CSS 補強
+
+    const $ = (s) => document.querySelector(s);
+    const PI = 3.14;
+
+    function showScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      $(`#screen-${name}`).classList.add('active');
+    }
+
+    // ========= 排行榜（本機） =========
+    const LB_KEY = "JM_G6U11_LEADERBOARD_V2";
+
+    function loadLB(){
+      try{
+        const raw = localStorage.getItem(LB_KEY);
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      }catch(e){ return []; }
+    }
+    function saveLB(arr){
+      try{ localStorage.setItem(LB_KEY, JSON.stringify(arr)); }catch(e){}
+    }
+
+    function levelName(lvl){
+      if(String(lvl)==="1") return "圓面積";
+      if(String(lvl)==="2") return "扇形面積";
+      return "複合應用";
+    }
+    function diffName(d){
+      if(d==="easy") return "基礎";
+      if(d==="normal") return "進階";
+      return "挑戰";
+    }
+
+    function escapeHTML(str){
+      return String(str).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function renderLB(){
+      const body = $("#leaderBody");
+      const list = loadLB().slice(0,10);
+
+      if(list.length === 0){
+        body.innerHTML = `<tr><td colspan="5" style="color:var(--text-sub); font-weight:800;">尚無紀錄，先來當第一名 ✨</td></tr>`;
+        return;
+      }
+
+      body.innerHTML = list.map((it, idx) => `
+        <tr>
+          <td><span class="rank-pill">#${idx+1}</span></td>
+          <td>${escapeHTML(it.name || "")}</td>
+          <td>${Number(it.score||0)}</td>
+          <td>${escapeHTML(levelName(it.level))}</td>
+          <td>${escapeHTML(diffName(it.diff))}</td>
+        </tr>
+      `).join("");
+    }
+
+    function pushScoreToLB(name, score, level, diff){
+      const arr = loadLB();
+      arr.push({
+        name: String(name||"").slice(0,18),
+        score: Number(score||0),
+        level: String(level||"1"),
+        diff: String(diff||"easy"),
+        t: Date.now()
+      });
+      arr.sort((a,b) => (b.score - a.score) || (a.t - b.t));
+      saveLB(arr.slice(0, 30));
+      renderLB();
+    }
+
+    // ========= 玩家 / Hero 顯示（無 Guest） =========
+    let playerName = "";
+    const who = $("#whoBadge");
+
+    function setNamePill(name){
+      playerName = name;
+      if(name){
+        who.textContent = name;
+        who.classList.add("show");
+      }else{
+        who.textContent = "";
+        who.classList.remove("show");
+      }
+    }
+
+    $("#btnNameGo").onclick = () => {
+      const name = $("#nameInput").value.trim();
+      if(!name) return;
+      setNamePill(name);
+      renderLB();
+      showScreen("menu");
+    };
+
+    // ========= Chip 選擇 =========
+    let selectedLevel = null;
+    let selectedDiff = null;
+
+    document.querySelectorAll('#levelChips .chip').forEach(c => {
+      c.onclick = () => {
+        document.querySelectorAll('#levelChips .chip').forEach(x => x.classList.remove('active'));
+        c.classList.add('active');
+        selectedLevel = c.dataset.level;
+        checkMenuReady();
+      };
+    });
+
+    document.querySelectorAll('#diffChips .chip').forEach(c => {
+      c.onclick = () => {
+        document.querySelectorAll('#diffChips .chip').forEach(x => x.classList.remove('active'));
+        c.classList.add('active');
+        selectedDiff = c.dataset.diff;
+        checkMenuReady();
+      };
+    });
+
+    function checkMenuReady() {
+      if(selectedLevel && selectedDiff) $("#btnStart").disabled = false;
+    }
+
+    // ========= Canvas =========
+    const canvas = $("#viz");
+    const ctx = canvas.getContext("2d");
+
+    function clearCanvas(){ ctx.clearRect(0,0,500,500); }
+
+    function drawCircle(r){
+      clearCanvas();
+      const R = r*10;
+      ctx.beginPath();
+      ctx.arc(250,250,R,0,Math.PI*2);
+      ctx.strokeStyle = "#6366f1";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.fillStyle = "rgba(99,102,241,0.05)";
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(250,250);
+      ctx.lineTo(250+R,250);
+      ctx.setLineDash([6,6]);
+      ctx.strokeStyle = "rgba(30,41,59,0.35)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function drawSector(r, deg){
+      clearCanvas();
+      const R = r*10;
+      const start = -Math.PI/2;
+      const end = start + deg*Math.PI/180;
+
+      ctx.beginPath();
+      ctx.moveTo(250,250);
+      ctx.arc(250,250,R,start,end);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(16,185,129,0.12)";
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(250,250,R,0,Math.PI*2);
+      ctx.strokeStyle = "rgba(99,102,241,0.55)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(250,250);
+      ctx.lineTo(250 + R*Math.cos(start), 250 + R*Math.sin(start));
+      ctx.lineTo(250 + R*Math.cos(end), 250 + R*Math.sin(end));
+      ctx.closePath();
+      ctx.strokeStyle = "#10b981";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    }
+
+    function drawAnnularSector(Ro, Ri, deg){
+      clearCanvas();
+      const RO = Ro*10;
+      const RI = Ri*10;
+      const start = -Math.PI/2;
+      const end = start + deg*Math.PI/180;
+
+      // 外扇形 + 內挖空（evenodd）
+      ctx.beginPath();
+      ctx.moveTo(250,250);
+      ctx.arc(250,250,RO,start,end);
+      ctx.closePath();
+      ctx.moveTo(250,250);
+      ctx.arc(250,250,RI,end,start,true);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(99,102,241,0.10)";
+      ctx.fill("evenodd");
+
+      ctx.beginPath();
+      ctx.arc(250,250,RO,0,Math.PI*2);
+      ctx.strokeStyle = "rgba(99,102,241,0.55)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(250,250,RI,0,Math.PI*2);
+      ctx.strokeStyle = "rgba(16,185,129,0.55)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function setMeterText(r){
+      $("#meterText").textContent = `視覺半徑：${r.toFixed(1)} cm（π 取 3.14）`;
+    }
+    function setSliderRadius(r){
+      const v = Math.round(r*10);
+      $("#slider").value = Math.max(10, Math.min(160, v));
+      setMeterText(r);
+    }
+
+    $("#slider").addEventListener("input", () => {
+      const r = Number($("#slider").value)/10;
+      setMeterText(r); // 只做顯示，不影響題目答案
+    });
+
+    // ========= 遊戲狀態 =========
+    let timeLeft = 60;
+    let timerId = null;
+    let paused = false;
+
+    let score = 0;
+    let combo = 0;
+    let correct = 0;
+    let total = 0;
+
+    let currentAnswer = null;
+    let currentAnswerText = "";
+
+    function round1(x){ return Math.round(x*10)/10; }
+    function fmt1(x){ return round1(x).toFixed(1); }
+
+    function updateHUD(){
+      $("#scoreText").textContent = String(score);
+      $("#comboText").textContent = String(combo);
+      $("#correctText").textContent = String(correct);
+      const acc = total === 0 ? 100 : Math.round((correct/total)*100);
+      $("#accText").textContent = `${acc}%`;
+    }
+
+    function setFeedback(msg, ok){
+      const el = $("#feedback");
+      el.textContent = msg;
+      el.style.color = ok ? "var(--accent)" : "var(--danger)";
+    }
+
+    function startTimer(){
+      clearInterval(timerId);
+      timerId = setInterval(() => {
+        if(paused) return;
+        timeLeft -= 1;
+        $("#timerText").textContent = String(timeLeft);
+        if(timeLeft <= 0) endGame();
+      }, 1000);
+    }
+
+    function resetRun(){
+      paused = false;
+      $("#btnPause").innerHTML = `<i class="fa-solid fa-pause"></i> 暫停`;
+      $("#ansInput").disabled = false;
+      $("#btnSubmit").disabled = false;
+
+      timeLeft = 60;
+      $("#timerText").textContent = String(timeLeft);
+
+      score = 0; combo = 0; correct = 0; total = 0;
+      updateHUD();
+      setFeedback("", true);
+
+      $("#ansInput").value = "";
+      $("#qText").textContent = "載入中...";
+    }
+
+    function endGame(){
+      clearInterval(timerId);
+      showScreen("result");
+      $("#finalScore").textContent = String(score);
+      $("#finalCorrect").textContent = String(correct);
+
+      const acc = total === 0 ? 0 : Math.round((correct/total)*100);
+      $("#resGrade").textContent = acc >= 90 ? "幾何之星・光速理解" :
+                                  acc >= 75 ? "穩穩發光・邏輯在線" :
+                                  acc >= 60 ? "再一點點就封神" : "先不急，慢慢把圓圈圈變成你的";
+      $("#resSummary").textContent = `本回合：${total} 次作答，命中 ${correct} 題，準確率 ${acc}%`;
+
+      pushScoreToLB(playerName, score, selectedLevel, selectedDiff);
+    }
+
+    // ========= 題庫（依講義題型：圓面積/扇形面積/披薩扇形/同心扇形/半圓扣除/陰影） =========
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    function qCircleArea_fromRadius(r){
+      const area = PI*r*r;
+      currentAnswer = round1(area);
+      currentAnswerText = `${fmt1(area)} 平方公分`;
+      setSliderRadius(Math.min(16, Math.max(1, r)));
+      drawCircle(Math.min(16, Math.max(1, r)));
+      $("#qText").innerHTML =
+        `【圓面積】半徑 <b>${r}</b> cm，π 取 3.14。<br>求圓面積（取到小數點後 1 位）。`;
+    }
+
+    function qCircleArea_fromDiameter(d){
+      const r = d/2;
+      const area = PI*r*r;
+      currentAnswer = round1(area);
+      currentAnswerText = `${fmt1(area)} 平方公分`;
+      setSliderRadius(Math.min(16, Math.max(1, r)));
+      drawCircle(Math.min(16, Math.max(1, r)));
+      $("#qText").innerHTML =
+        `【圓面積】直徑 <b>${d}</b> cm（半徑 ${r} cm），π 取 3.14。<br>求圓面積（取到小數點後 1 位）。`;
+    }
+
+    function qSectorArea(r, deg){
+      const area = (PI*r*r) * (deg/360);
+      currentAnswer = round1(area);
+      currentAnswerText = `${fmt1(area)} 平方公分`;
+      setSliderRadius(Math.min(16, Math.max(1, r)));
+      drawSector(Math.min(16, Math.max(1, r)), deg);
+      $("#qText").innerHTML =
+        `【扇形面積】半徑 <b>${r}</b> cm，圓心角 <b>${deg}°</b>，π 取 3.14。<br>求扇形面積（取到小數點後 1 位）。`;
+    }
+
+    function qPizzaFraction(d, fracText, frac){
+      const r = d/2;
+      const area = (PI*r*r) * frac;
+      currentAnswer = round1(area);
+      currentAnswerText = `${fmt1(area)} 平方公分`;
+      setSliderRadius(Math.min(16, Math.max(1, r)));
+      drawSector(Math.min(16, Math.max(1, r)), Math.round(frac*360));
+      $("#qText").innerHTML =
+        `【披薩扇形】直徑 <b>${d}</b> cm 的披薩，吃掉 <b>${fracText}</b> 圓。<br>` +
+        `π 取 3.14，求吃掉的面積（取到小數點後 1 位）。`;
+    }
+
+    function qAnnularSector(Ro, Ri, deg){
+      const area = ((PI*Ro*Ro) - (PI*Ri*Ri)) * (deg/360);
+      currentAnswer = round1(area);
+      currentAnswerText = `${fmt1(area)} 平方公分`;
+      setSliderRadius(Math.min(16, Math.max(1, Ro)));
+      drawAnnularSector(Math.min(16, Math.max(1, Ro)), Math.max(1, Math.min(15.5, Ri)), deg);
+      $("#qText").innerHTML =
+        `【複合陰影｜同心扇形】外半徑 <b>${Ro}</b> cm，內半徑 <b>${Ri}</b> cm，圓心角 <b>${deg}°</b>。<br>` +
+        `π 取 3.14，求陰影面積（取到小數點後 1 位）。`;
+    }
+
+    function qSemiCircleDiff(Ro, Ri){
+      const area = (PI*Ro*Ro/2) - (PI*Ri*Ri/2);
+      currentAnswer = round1(area);
+      currentAnswerText = `${fmt1(area)} 平方公分`;
+      setSliderRadius(Math.min(16, Math.max(1, Ro)));
+      drawSector(Math.min(16, Math.max(1, Ro)), 180);
+      $("#qText").innerHTML =
+        `【複合陰影｜半圓差】同圓心上半圓：大半徑 <b>${Ro}</b> cm，小半徑 <b>${Ri}</b> cm。<br>` +
+        `π 取 3.14，求陰影面積（大半圓 − 小半圓，取到小數點後 1 位）。`;
+    }
+
+    function newQuestion(){
+      $("#ansInput").value = "";
+      setFeedback("", true);
+
+      const lvl = String(selectedLevel);
+      const diff = selectedDiff;
+
+      const anglesEasy = [45, 60, 90, 120, 180];
+      const anglesNormal = [30, 45, 60, 90, 120, 135, 150, 180];
+      const anglesHard = [15, 30, 45, 60, 90, 120, 135, 150, 180, 225];
+
+      const anglePool = diff==="easy" ? anglesEasy : (diff==="normal" ? anglesNormal : anglesHard);
+
+      if(lvl === "1"){
+        const mode = diff==="easy" ? "r" : pick(["r","d","r","d"]);
+        if(mode === "r"){
+          const rPool = diff==="easy" ? [5,6,8,10,12] : (diff==="normal" ? [4,5,6,7,8,10,12,15] : [3,4,5,6,7,8,10,12,15,16]);
+          qCircleArea_fromRadius(pick(rPool));
+        }else{
+          const dPool = diff==="easy" ? [16,20,28] : (diff==="normal" ? [10,16,20,24,28,32] : [10,12,16,18,20,24,28,32]);
+          qCircleArea_fromDiameter(pick(dPool));
+        }
+        return;
+      }
+
+      if(lvl === "2"){
+        const mode = diff==="easy" ? pick(["sector","pizza","sector"]) : pick(["sector","sector","pizza","sector"]);
+        if(mode === "sector"){
+          const rPool = diff==="easy" ? [6,8,10,12,15] : (diff==="normal" ? [5,6,8,10,12,15] : [4,5,6,8,10,12,15,16]);
+          qSectorArea(pick(rPool), pick(anglePool));
+        }else{
+          const dPool = diff==="easy" ? [16,22,32] : [16,22,32];
+          const fracSet = diff==="easy"
+            ? [{t:"1/2",v:1/2},{t:"1/4",v:1/4},{t:"1/8",v:1/8}]
+            : (diff==="normal"
+              ? [{t:"1/2",v:1/2},{t:"1/3",v:1/3},{t:"1/4",v:1/4},{t:"5/8",v:5/8}]
+              : [{t:"1/2",v:1/2},{t:"1/3",v:1/3},{t:"1/4",v:1/4},{t:"5/8",v:5/8},{t:"225°(=5/8)",v:5/8}]
+            );
+          const f = pick(fracSet);
+          qPizzaFraction(pick(dPool), f.t, f.v);
+        }
+        return;
+      }
+
+      const mode = diff==="easy"
+        ? pick(["annular","semi","annular"])
+        : (diff==="normal" ? pick(["annular","semi","pizza"]) : pick(["annular","semi","pizza","annular"]));
+
+      if(mode === "annular"){
+        const RoPool = diff==="easy" ? [10,12,15] : (diff==="normal" ? [10,12,15,16] : [12,15,16]);
+        const Ro = pick(RoPool);
+        const Ri = diff==="easy" ? Ro-5 : (diff==="normal" ? Ro-5 : Ro-6);
+        qAnnularSector(Ro, Math.max(1, Ri), pick(anglePool));
+        return;
+      }
+
+      if(mode === "semi"){
+        const Ro = diff==="easy" ? pick([10,12,15]) : pick([12,15,16]);
+        const Ri = diff==="easy" ? Ro-5 : (diff==="normal" ? Ro-6 : Ro-7);
+        qSemiCircleDiff(Ro, Math.max(1, Ri));
+        return;
+      }
+
+      const d = pick([16,22,32]);
+      const deg = diff==="hard" ? pick([225,135,120,90]) : pick([180,120,90,135]);
+      qSectorArea(d/2, deg);
+    }
+
+    // ========= 判分（允許 ±0.1） =========
+    function checkAnswer(){
+      if(paused) return;
+
+      const raw = $("#ansInput").value;
+      const userVal = Number(raw);
+      if(!raw || Number.isNaN(userVal)){
+        setFeedback("先把數字放進來，答案別躲貓貓 🫧", false);
+        return;
+      }
+
+      total += 1;
+      const ok = Math.abs(userVal - currentAnswer) <= 0.1;
+
+      if(ok){
+        correct += 1;
+        combo += 1;
+        const gain = Math.round(10 * (1 + Math.min(5, combo) * 0.2));
+        score += gain;
+        setFeedback(`命中！+${gain} 分（π=3.14 的世界線穩了）`, true);
+        updateHUD();
+        setTimeout(newQuestion, 450);
+      }else{
+        combo = 0;
+        setFeedback(`差一點～正確是 ${currentAnswerText}（輸入：${currentAnswer}）`, false);
+        updateHUD();
+        setTimeout(newQuestion, 900);
+      }
+    }
+
+    $("#btnSubmit").onclick = checkAnswer;
+    $("#ansInput").addEventListener("keydown", (e) => {
+      if(e.key === "Enter") checkAnswer();
+    });
+
+    // ========= 三鍵 =========
+    $("#btnPause").onclick = () => {
+      paused = !paused;
+      if(paused){
+        $("#btnPause").innerHTML = `<i class="fa-solid fa-play"></i> 繼續`;
+        $("#ansInput").disabled = true;
+        $("#btnSubmit").disabled = true;
+        setFeedback("已暫停。讓腦袋先喝口水 🥤", true);
+      }else{
+        $("#btnPause").innerHTML = `<i class="fa-solid fa-pause"></i> 暫停`;
+        $("#ansInput").disabled = false;
+        $("#btnSubmit").disabled = false;
+        setFeedback("", true);
+      }
+    };
+
+    $("#btnRestart").onclick = () => {
+      clearInterval(timerId);
+      resetRun();
+      const r0 = Number($("#slider").value)/10;
+      setMeterText(r0);
+      drawCircle(r0);
+      startTimer();
+      newQuestion();
+    };
+
+    $("#btnBack").onclick = () => {
+      clearInterval(timerId);
+      paused = false;
+      $("#btnPause").innerHTML = `<i class="fa-solid fa-pause"></i> 暫停`;
+      renderLB();
+      showScreen("menu");
+    };
+
+    // ========= Start =========
+    $("#btnStart").onclick = () => {
+      showScreen("game");
+      resetRun();
+      const r0 = Number($("#slider").value)/10;
+      setMeterText(r0);
+      drawCircle(r0);
+      startTimer();
+      newQuestion();
+    };
+
+    // 初始
+    renderLB();
+    setMeterText(Number($("#slider").value)/10);
+  </script>
+</body>
+</html>
